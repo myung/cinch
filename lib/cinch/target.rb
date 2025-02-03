@@ -112,7 +112,8 @@ module Cinch
     # @return [void]
     # @see #safe_action
     def action(text)
-      @bot.irc.send("PRIVMSG #@name :\001ACTION #{text}\001")
+      line = text.to_s.each_line.first.chomp
+      @bot.irc.send("PRIVMSG #@name :\001ACTION #{line}\001")
     end
 
     # Like {#action}, but remove any non-printable characters from
@@ -128,7 +129,7 @@ module Cinch
     # @return (see #action)
     # @see #action
     def safe_action(text)
-      action(Cinch::Helpers.Sanitize(text))
+      action(Cinch::Helpers.sanitize(text))
     end
 
     # Send a CTCP to the target.
